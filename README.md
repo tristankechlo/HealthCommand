@@ -4,12 +4,12 @@
 adds a simple /health command to Minecraft  
   
   
-Syntax:
+### Syntax:
  - /health add <targets> <amount>
  - /health set <targets> <amount>
  - /health get <targets>
    
-   
+### Info
  - the health of the entity will be set to the given amount
  - if set to true in the config, the maximum health of the entity will be increased, this way the entity can heal to the new amount, even after losing some health
   
