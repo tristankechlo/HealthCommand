@@ -1,0 +1,7 @@
+{
+	"commands.healthcommand.health.get_health" : "%s has %s health left.",
+	"commands.healthcommand.health.no_entity_found" : "There were no entities with a health attribute in your selection.",
+	"commands.healthcommand.health.new_health" : "New health of %s is %s.",
+	"commands.healthcommand.health.new_health_multi" : "New health of %s entities is now %s.",
+	"commands.healthcommand.health.add_health_multi" : "Added %s health to %s entities."
+}
