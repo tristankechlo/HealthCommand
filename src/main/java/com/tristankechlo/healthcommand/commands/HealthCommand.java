@@ -10,28 +10,28 @@ import com.tristankechlo.healthcommand.HealthCommandMain;
 import com.tristankechlo.healthcommand.config.HealthCommandConfig;
 
 import io.netty.util.internal.ThreadLocalRandom;
-import net.minecraft.command.CommandSource;
-import net.minecraft.command.Commands;
-import net.minecraft.command.arguments.EntityArgument;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.ai.attributes.AttributeModifier;
-import net.minecraft.entity.ai.attributes.AttributeModifier.Operation;
-import net.minecraft.entity.ai.attributes.Attributes;
-import net.minecraft.entity.ai.attributes.ModifiableAttributeInstance;
-import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.commands.CommandSourceStack;
+import net.minecraft.commands.Commands;
+import net.minecraft.commands.arguments.EntityArgument;
+import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.util.Mth;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.attributes.AttributeInstance;
+import net.minecraft.world.entity.ai.attributes.AttributeModifier;
+import net.minecraft.world.entity.ai.attributes.AttributeModifier.Operation;
+import net.minecraft.world.entity.ai.attributes.Attributes;
 
 public class HealthCommand {
 
-	private static final UUID UUID = MathHelper.createInsecureUUID(ThreadLocalRandom.current());
+	private static final UUID UUID = Mth.createInsecureUUID(ThreadLocalRandom.current());
 	private static final String PREFIX = "commands.healthcommand.health";
 	private static final Supplier<String> SUPPLIER = () -> {
 		return HealthCommandMain.MOD_ID + ":" + HealthCommand.class.getSimpleName();
 	};
 
-	public static void register(final CommandDispatcher<CommandSource> dispatcher) {
+	public static void register(final CommandDispatcher<CommandSourceStack> dispatcher) {
 		dispatcher.register(Commands.literal("health").requires((player) -> {
 			int level = HealthCommandConfig.SERVER.permissionLevel.get();
 			return player.hasPermission(level);
@@ -51,15 +51,15 @@ public class HealthCommand {
 		HealthCommandMain.LOGGER.debug(HealthCommandMain.MOD_ID + ": Health command registered");
 	}
 
-	private static int addHealth(CommandSource source, Collection<? extends Entity> targets, int amount) {
+	private static int addHealth(CommandSourceStack source, Collection<? extends Entity> targets, int amount) {
 		int i = 0;
 		LivingEntity lastModified = null;
 		for (Entity entity : targets) {
 			if (!(entity instanceof LivingEntity)) {
 				continue;
 			}
-			if (entity instanceof ServerPlayerEntity) {
-				ServerPlayerEntity player = (ServerPlayerEntity) entity;
+			if (entity instanceof ServerPlayer) {
+				ServerPlayer player = (ServerPlayer) entity;
 				if (player.isCreative() || player.isSpectator()) {
 					continue;
 				}
@@ -74,25 +74,25 @@ public class HealthCommand {
 
 		// send response
 		if (i == 0) {
-			source.sendFailure(new TranslationTextComponent(PREFIX + ".no_entity_found"));
+			source.sendFailure(new TranslatableComponent(PREFIX + ".no_entity_found"));
 		} else if (i == 1 && lastModified != null) {
-			source.sendSuccess(new TranslationTextComponent(PREFIX + ".new_health", lastModified.getName().getString(),
+			source.sendSuccess(new TranslatableComponent(PREFIX + ".new_health", lastModified.getName().getString(),
 					lastModified.getHealth()), false);
 		} else {
-			source.sendSuccess(new TranslationTextComponent(PREFIX + ".add_health_multi", amount, i), false);
+			source.sendSuccess(new TranslatableComponent(PREFIX + ".add_health_multi", amount, i), false);
 		}
 		return i;
 	}
 
-	private static int setHealth(CommandSource source, Collection<? extends Entity> targets, int amount) {
+	private static int setHealth(CommandSourceStack source, Collection<? extends Entity> targets, int amount) {
 		int i = 0;
 		LivingEntity lastModified = null;
 		for (Entity entity : targets) {
 			if (!(entity instanceof LivingEntity)) {
 				continue;
 			}
-			if (entity instanceof ServerPlayerEntity) {
-				ServerPlayerEntity player = (ServerPlayerEntity) entity;
+			if (entity instanceof ServerPlayer) {
+				ServerPlayer player = (ServerPlayer) entity;
 				if (player.isCreative() || player.isSpectator()) {
 					continue;
 				}
@@ -107,17 +107,17 @@ public class HealthCommand {
 
 		// send response
 		if (i == 0) {
-			source.sendFailure(new TranslationTextComponent(PREFIX + ".no_entity_found"));
+			source.sendFailure(new TranslatableComponent(PREFIX + ".no_entity_found"));
 		} else if (i == 1 && lastModified != null) {
-			source.sendSuccess(new TranslationTextComponent(PREFIX + ".new_health", lastModified.getName().getString(),
+			source.sendSuccess(new TranslatableComponent(PREFIX + ".new_health", lastModified.getName().getString(),
 					lastModified.getHealth()), false);
 		} else {
-			source.sendSuccess(new TranslationTextComponent(PREFIX + ".new_health_multi", i, amount), false);
+			source.sendSuccess(new TranslatableComponent(PREFIX + ".new_health_multi", i, amount), false);
 		}
 		return i;
 	}
 
-	private static int getHealth(CommandSource source, Collection<? extends Entity> targets) {
+	private static int getHealth(CommandSourceStack source, Collection<? extends Entity> targets) {
 		for (Entity entity : targets) {
 			if (!(entity instanceof LivingEntity)) {
 				continue;
@@ -125,7 +125,7 @@ public class HealthCommand {
 			LivingEntity livingEntity = (LivingEntity) entity;
 			float health = livingEntity.getHealth();
 			source.sendSuccess(
-					new TranslationTextComponent(PREFIX + ".get_health", livingEntity.getName().getString(), health),
+					new TranslatableComponent(PREFIX + ".get_health", livingEntity.getName().getString(), health),
 					false);
 		}
 		return 1;
@@ -133,7 +133,7 @@ public class HealthCommand {
 
 	private static boolean setHealthSingle(LivingEntity livingEntity, float newHealth,
 			Supplier<Boolean> goBeyondMaxHealth) {
-		ModifiableAttributeInstance attribute = livingEntity.getAttribute(Attributes.MAX_HEALTH);
+		AttributeInstance attribute = livingEntity.getAttribute(Attributes.MAX_HEALTH);
 		if (newHealth <= livingEntity.getMaxHealth()) {
 			// no need for new maximum health here
 			livingEntity.setHealth(newHealth);
