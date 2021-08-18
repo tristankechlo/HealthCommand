@@ -3,5 +3,6 @@
 	"commands.healthcommand.health.no_entity_found" : "In deiner Auswahl waren keine Entitäten die ein Lebens-Attribut haben.",
 	"commands.healthcommand.health.new_health" : "Das neue Leben von %s ist jetzt %s",
 	"commands.healthcommand.health.new_health_multi" : "Das neue Leben von %s Entitäten ist nun %s",
-	"commands.healthcommand.health.add_health_multi" : "%s Leben bei %s Entitäten hinzu gefügt."
+	"commands.healthcommand.health.add_health_multi" : "%s Leben bei %s Entitäten hinzu gefügt.",
+	"commands.healthcommand.health.reset_health" : "Leben von %s zurückgesetzt."
 }
