@@ -5,13 +5,13 @@ showAsResourcePack=false
 
 [[mods]]
 modId="healthcommand"
-version="1.17.1 - 1.0"
+version="1.17.1 - 1.1"
 displayName="Health Command"
 displayURL="https://www.curseforge.com/minecraft/mc-mods/health-command"
 #logoFile="examplemod.png"
 #credits="Thanks for this example mod goes to Java"
 authors="Buecher_wurm"
-description='''adds the /health command'''
+description='''adds a simple /health command'''
 
 [[dependencies.healthcommand]]
     modId="forge"

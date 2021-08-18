@@ -3,5 +3,6 @@
 	"commands.healthcommand.health.no_entity_found" : "There were no entities with a health attribute in your selection.",
 	"commands.healthcommand.health.new_health" : "New health of %s is %s",
 	"commands.healthcommand.health.new_health_multi" : "New health of %s entities is now %s",
-	"commands.healthcommand.health.add_health_multi" : "Added %s health to %s entities."
+	"commands.healthcommand.health.add_health_multi" : "Added %s health to %s entities.",
+	"commands.healthcommand.health.reset_health" : "Resetted the health of %s."
 }
