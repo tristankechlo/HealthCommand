@@ -20,7 +20,7 @@ public class HealthCommandMain {
 	public static final String MOD_ID = "healthcommand";
 
 	public HealthCommandMain() {
-		ModLoadingContext.get().registerConfig(ModConfig.Type.SERVER, HealthCommandConfig.spec);
+		ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, HealthCommandConfig.spec);
 		MinecraftForge.EVENT_BUS.register(this);
 	}
 
