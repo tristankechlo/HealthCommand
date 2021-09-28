@@ -2,10 +2,11 @@ modLoader="javafml"
 loaderVersion="[32,)"
 license="CC BY-NC-ND 4.0"
 showAsResourcePack=false
+issueTrackerURL="https://github.com/tristankechlo/HealthCommand/issues"
 
 [[mods]]
 modId="healthcommand"
-version="1.16.5 - 1.1"
+version="1.16.5 - 1.2"
 displayName="Health Command"
 displayURL="https://www.curseforge.com/minecraft/mc-mods/health-command"
 #logoFile="examplemod.png"
