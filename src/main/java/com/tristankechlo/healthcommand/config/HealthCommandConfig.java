@@ -18,7 +18,6 @@ public class HealthCommandConfig {
 
 	public static class Server {
 
-		// health command related config
 		public final IntValue permissionLevel;
 		public final BooleanValue goBeyondMaxHealthForAdding;
 		public final BooleanValue goBeyondMaxHealthForSetting;
@@ -35,6 +34,7 @@ public class HealthCommandConfig {
 					.worldRestart().define("goBeyondMaxHealthForSetting", true);
 			builder.pop();
 		}
+
 	}
 
 	@SubscribeEvent
