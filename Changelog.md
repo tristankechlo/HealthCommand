@@ -1,5 +1,8 @@
 # Changelog
 
+### Version 1.18.1 - 1.2
+ - port to 1.18.1
+
 ### Version 1.17.1 - 1.2
  - move config file to normal forge-config-folder
 
