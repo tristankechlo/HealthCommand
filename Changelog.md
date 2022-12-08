@@ -1,7 +1,7 @@
 # Changelog
 
-### Version 1.19.2 - 1.3
-- port to 1.19.2
+### Version 1.19.3 - 1.3
+- port to 1.19.3
 - move config to json format to have the same config on forge and fabric
 - add command `healthcommand`
     - `/healthcommand github` shows the url to the github page
