@@ -16,3 +16,6 @@ adds a simple `/health` command to Minecraft
   
   
 [Download the mod here](https://www.curseforge.com/minecraft/mc-mods/health-command)
+
+### Project setup
+This project is developed using the [MultiLoader-Template](https://github.com/jaredlll08/MultiLoader-Template) from jaredlll08
