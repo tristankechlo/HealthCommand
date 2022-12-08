@@ -1,56 +1,63 @@
-plugins {
-    id 'eclipse'
-    id 'net.minecraftforge.gradle' version '5.1.+'
-}
+subprojects {
 
-version = "${mod_version}"
-group = 'com.tristankechlo.healthcommand'
-archivesBaseName = 'healthcommand'
+    apply plugin: 'java'
 
-java.toolchain.languageVersion = JavaLanguageVersion.of(17)
-println('Java: ' + System.getProperty('java.version') + ' JVM: ' + System.getProperty('java.vm.version') + '(' + System.getProperty('java.vendor') + ') Arch: ' + System.getProperty('os.arch'))
+    java.toolchain.languageVersion = JavaLanguageVersion.of(17)
+    //java.withSourcesJar()
+    //java.withJavadocJar()
 
-minecraft {
-    mappings channel: 'official', version: project.mappings
-    
-    runs {
-        client {
-            workingDirectory project.file('run')
-            property 'forge.logging.markers', 'REGISTRIES'
-            property 'forge.logging.console.level', 'debug'
-
-            mods { healthcommand { source sourceSets.main } }
-        }
-
-        server {
-            workingDirectory project.file('run')
-            property 'forge.logging.markers', 'REGISTRIES'
-            property 'forge.logging.console.level', 'debug'
-
-            mods { healthcommand { source sourceSets.main } }
+    jar {
+        //from(rootProject.file("LICENSE")) {
+        //    rename { "${it}_${mod_name}" }
+        //}
+        manifest {
+            attributes([
+                    'Specification-Title'     : mod_name,
+                    'Specification-Vendor'    : mod_author,
+                    'Specification-Version'   : project.jar.archiveVersion,
+                    'Implementation-Title'    : project.name,
+                    'Implementation-Version'  : project.jar.archiveVersion,
+                    'Implementation-Vendor'   : mod_author,
+                    'Implementation-Timestamp': new Date().format("yyyy-MM-dd'T'HH:mm:ssZ"),
+                    'Timestamp'               : System.currentTimeMillis(),
+                    'Built-On-Java'           : "${System.getProperty('java.vm.version')} (${System.getProperty('java.vm.vendor')})",
+                    'Build-On-Minecraft'      : minecraft_version
+            ])
         }
     }
-}
 
-repositories {
-    maven { url 'https://maven.blamejared.com' }
-}
+    /*sourcesJar {
+        from(rootProject.file("LICENSE")) {
+            rename { "${it}_${mod_name}" }
+        }
+    }*/
 
-dependencies {    
-    minecraft "net.minecraftforge:forge:${forge_version}"
-}
+    repositories {
 
-jar {
-    manifest {
-        attributes([
-            "Specification-Title": "healthcommand",
-            "Implementation-Title": project.name,
-            "Implementation-Version": "${version}",
-            "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")
-        ])
+        mavenCentral()
+
+        maven {
+            name = 'Sponge / Mixin'
+            url = 'https://repo.spongepowered.org/repository/maven-public/'
+        }
+
+        maven {
+            name = 'BlameJared Maven (CrT / Bookshelf)'
+            url = 'https://maven.blamejared.com'
+        }
     }
-}
 
-tasks.withType(JavaCompile).configureEach {
-    options.encoding = 'UTF-8' // Use the UTF-8 charset for Java compilation
+    tasks.withType(JavaCompile).configureEach {
+
+        it.options.encoding = 'UTF-8'
+        it.options.release = 17
+    }
+
+    // Disables Gradle's custom module metadata from being published to maven. The
+    // metadata includes mapped dependencies which are not reasonably consumable by
+    // other mod developers.
+    tasks.withType(GenerateModuleMetadata) {
+
+        enabled = false
+    }
 }

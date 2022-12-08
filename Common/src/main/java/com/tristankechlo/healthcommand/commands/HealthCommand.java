@@ -31,7 +31,7 @@ public class HealthCommand {
 
 	public static void register(final CommandDispatcher<CommandSourceStack> dispatcher) {
 		dispatcher.register(Commands.literal("health").requires((player) -> {
-			int level = HealthCommandConfig.SERVER.permissionLevel.get();
+			int level = HealthCommandConfig.permissionLevel.get();
 			return player.hasPermission(level);
 		}).then(Commands.literal("add").then(Commands.argument("targets", EntityArgument.entities())
 				.then(Commands.argument("amount", IntegerArgumentType.integer()).executes((source) -> {
@@ -69,7 +69,7 @@ public class HealthCommand {
 			LivingEntity livingEntity = (LivingEntity) entity;
 			lastModified = livingEntity;
 			if (setHealthSingle(livingEntity, livingEntity.getHealth() + amount,
-					() -> HealthCommandConfig.SERVER.goBeyondMaxHealthForAdding.get())) {
+					() -> HealthCommandConfig.goBeyondMaxHealthForAdding.get())) {
 				i++;
 			}
 		}
@@ -102,7 +102,7 @@ public class HealthCommand {
 			LivingEntity livingEntity = (LivingEntity) entity;
 			lastModified = livingEntity;
 			if (setHealthSingle(livingEntity, amount,
-					() -> HealthCommandConfig.SERVER.goBeyondMaxHealthForSetting.get())) {
+					() -> HealthCommandConfig.goBeyondMaxHealthForSetting.get())) {
 				i++;
 			}
 		}
