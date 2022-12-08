@@ -3,16 +3,14 @@ package com.tristankechlo.healthcommand;
 import com.tristankechlo.healthcommand.commands.HealthCommand;
 import com.tristankechlo.healthcommand.commands.ModCommand;
 import com.tristankechlo.healthcommand.config.ConfigManager;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.RegisterCommandsEvent;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.event.server.FMLServerAboutToStartEvent;
+import net.fabricmc.api.ModInitializer;
+import net.fabricmc.fabric.api.command.v1.CommandRegistrationCallback;
+import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 
-@Mod(HealthCommandMain.MOD_ID)
-public class HealthCommandMain {
+public class HealthCommandMain implements ModInitializer {
 
     public static final String MOD_NAME = "HealthCommand";
     public static final Logger LOGGER = LogManager.getLogger(MOD_NAME);
@@ -23,21 +21,18 @@ public class HealthCommandMain {
     public static final String CURSEFORGE_URL = "https://curseforge.com/minecraft/mc-mods/health-command";
     public static final String MODRINTH_URL = "https://modrinth.com/mod/health-command";
 
-    public HealthCommandMain() {
-        // register commands
-        MinecraftForge.EVENT_BUS.addListener(this::registerCommands);
-
+    @Override
+    public void onInitialize() {
         // setup configs
-        MinecraftForge.EVENT_BUS.addListener(this::commonSetup);
-    }
+        ServerLifecycleEvents.SERVER_STARTING.register((server) -> {
+            ConfigManager.loadAndVerifyConfig();
+        });
 
-    private void registerCommands(final RegisterCommandsEvent event) {
-        ModCommand.register(event.getDispatcher());
-        HealthCommand.register(event.getDispatcher());
-    }
-
-    private void commonSetup(final FMLServerAboutToStartEvent event) {
-        ConfigManager.loadAndVerifyConfig();
+        // register commands
+        CommandRegistrationCallback.EVENT.register((dispatcher, environment) -> {
+            ModCommand.register(dispatcher);
+            HealthCommand.register(dispatcher);
+        });
     }
 
 }

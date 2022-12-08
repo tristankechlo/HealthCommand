@@ -5,18 +5,19 @@ import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;
 import com.tristankechlo.healthcommand.HealthCommandMain;
 import com.tristankechlo.healthcommand.config.ConfigManager;
-import net.minecraft.command.CommandSource;
-import net.minecraft.util.text.IFormattableTextComponent;
-import net.minecraft.util.text.StringTextComponent;
-import net.minecraft.util.text.TextFormatting;
+import net.minecraft.server.command.ServerCommandSource;
+import net.minecraft.text.LiteralText;
+import net.minecraft.text.MutableText;
+import net.minecraft.util.Formatting;
 
-import static net.minecraft.command.Commands.literal;
+import static net.minecraft.server.command.CommandManager.literal;
+
 
 public class ModCommand {
 
-    public static void register(CommandDispatcher<CommandSource> dispatcher) {
-        LiteralArgumentBuilder<CommandSource> command = literal(HealthCommandMain.MOD_ID)
-                .then(literal("config").requires((source) -> source.hasPermission(3))
+    public static void register(CommandDispatcher<ServerCommandSource> dispatcher) {
+        LiteralArgumentBuilder<ServerCommandSource> command = literal(HealthCommandMain.MOD_ID)
+                .then(literal("config").requires((source) -> source.hasPermissionLevel(3))
                         .then(literal("reload").executes(ModCommand::configReload))
                         .then(literal("show").executes(ModCommand::configShow))
                         .then(literal("reset").executes(ModCommand::configReset)))
@@ -29,62 +30,62 @@ public class ModCommand {
         HealthCommandMain.LOGGER.info("Command '/{}' registered", HealthCommandMain.MOD_ID);
     }
 
-    private static int configReload(CommandContext<CommandSource> context) {
-        CommandSource source = context.getSource();
+    private static int configReload(CommandContext<ServerCommandSource> context) {
+        ServerCommandSource source = context.getSource();
         ConfigManager.reloadConfig();
         ResponseHelper.sendMessageConfigReload(source);
         return 1;
     }
 
-    private static int configShow(CommandContext<CommandSource> context) {
-        CommandSource source = context.getSource();
+    private static int configShow(CommandContext<ServerCommandSource> context) {
+        ServerCommandSource source = context.getSource();
         ResponseHelper.sendMessageConfigShow(source);
         return 1;
     }
 
-    private static int configReset(CommandContext<CommandSource> context) {
-        CommandSource source = context.getSource();
+    private static int configReset(CommandContext<ServerCommandSource> context) {
+        ServerCommandSource source = context.getSource();
         ConfigManager.resetConfig();
         ResponseHelper.sendMessageConfigReset(source);
         return 1;
     }
 
-    private static int github(CommandContext<CommandSource> context) {
-        CommandSource source = context.getSource();
-        IFormattableTextComponent link = ResponseHelper.clickableLink(HealthCommandMain.GITHUB_URL);
-        IFormattableTextComponent message = new StringTextComponent("Check out the source code on GitHub: ").withStyle(TextFormatting.WHITE).append(link);
+    private static int github(CommandContext<ServerCommandSource> context) {
+        ServerCommandSource source = context.getSource();
+        MutableText link = ResponseHelper.clickableLink(HealthCommandMain.GITHUB_URL);
+        MutableText message = new LiteralText("Check out the source code on GitHub: ").formatted(Formatting.WHITE).append(link);
         ResponseHelper.sendMessage(source, message, false);
         return 1;
     }
 
-    private static int issue(CommandContext<CommandSource> context) {
-        CommandSource source = context.getSource();
-        IFormattableTextComponent link = ResponseHelper.clickableLink(HealthCommandMain.GITHUB_ISSUE_URL);
-        IFormattableTextComponent message = new StringTextComponent("If you found an issue, submit it here: ").withStyle(TextFormatting.WHITE).append(link);
+    private static int issue(CommandContext<ServerCommandSource> context) {
+        ServerCommandSource source = context.getSource();
+        MutableText link = ResponseHelper.clickableLink(HealthCommandMain.GITHUB_ISSUE_URL);
+        MutableText message = new LiteralText("If you found an issue, submit it here: ").formatted(Formatting.WHITE).append(link);
         ResponseHelper.sendMessage(source, message, false);
         return 1;
     }
 
-    private static int discord(CommandContext<CommandSource> context) {
-        CommandSource source = context.getSource();
-        IFormattableTextComponent link = ResponseHelper.clickableLink(HealthCommandMain.DISCORD_URL);
-        IFormattableTextComponent message = new StringTextComponent("Join the Discord here: ").withStyle(TextFormatting.WHITE).append(link);
+    private static int discord(CommandContext<ServerCommandSource> context) {
+        ServerCommandSource source = context.getSource();
+        MutableText link = ResponseHelper.clickableLink(HealthCommandMain.DISCORD_URL);
+        MutableText message = new LiteralText("Join the Discord here: ").formatted(Formatting.WHITE).append(link);
         ResponseHelper.sendMessage(source, message, false);
         return 1;
     }
 
-    private static int curseforge(CommandContext<CommandSource> context) {
-        CommandSource source = context.getSource();
-        IFormattableTextComponent link = ResponseHelper.clickableLink(HealthCommandMain.CURSEFORGE_URL);
-        IFormattableTextComponent message = new StringTextComponent("Check out the CurseForge page here: ").withStyle(TextFormatting.WHITE).append(link);
+    private static int curseforge(CommandContext<ServerCommandSource> context) {
+        ServerCommandSource source = context.getSource();
+        MutableText link = ResponseHelper.clickableLink(HealthCommandMain.CURSEFORGE_URL);
+        MutableText message = new LiteralText("Check out the CurseForge page here: ").formatted(Formatting.WHITE).append(link);
         ResponseHelper.sendMessage(source, message, false);
         return 1;
     }
 
-    private static int modrinth(CommandContext<CommandSource> context) {
-        CommandSource source = context.getSource();
-        IFormattableTextComponent link = ResponseHelper.clickableLink(HealthCommandMain.MODRINTH_URL);
-        IFormattableTextComponent message = new StringTextComponent("Check out the Modrinth page here: ").withStyle(TextFormatting.WHITE).append(link);
+    private static int modrinth(CommandContext<ServerCommandSource> context) {
+        ServerCommandSource source = context.getSource();
+        MutableText link = ResponseHelper.clickableLink(HealthCommandMain.MODRINTH_URL);
+        MutableText message = new LiteralText("Check out the Modrinth page here: ").formatted(Formatting.WHITE).append(link);
         ResponseHelper.sendMessage(source, message, false);
         return 1;
     }

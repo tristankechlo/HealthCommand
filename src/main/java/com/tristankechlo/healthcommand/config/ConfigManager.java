@@ -3,7 +3,7 @@ package com.tristankechlo.healthcommand.config;
 import com.google.gson.*;
 import com.google.gson.stream.JsonWriter;
 import com.tristankechlo.healthcommand.HealthCommandMain;
-import net.minecraftforge.fml.loading.FMLPaths;
+import net.fabricmc.loader.api.FabricLoader;
 
 import java.io.File;
 import java.io.FileReader;
@@ -11,7 +11,7 @@ import java.io.FileWriter;
 
 public final class ConfigManager {
 
-    private static final File CONFIG_DIR = FMLPaths.CONFIGDIR.get().toFile();
+    private static final File CONFIG_DIR = FabricLoader.getInstance().getConfigDir().toFile();
     private static final Gson GSON = new GsonBuilder().setPrettyPrinting().serializeNulls().create();
     public static final String FILE_NAME = HealthCommandMain.MOD_ID + ".json";
 

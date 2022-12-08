@@ -1,0 +1,30 @@
+{
+    "schemaVersion": 1,
+    "id": "healthcommand",
+    "version": "1.6.5-1.3",
+    "name": "HealthCommand",
+    "description": "adds a simple /health command",
+    "authors": [
+        "Buecher_wurm"
+    ],
+    "contact": {
+        "homepage": "https://github.com/tristankechlo/HealthCommand",
+        "sources": "https://github.com/tristankechlo/HealthCommand"
+    },
+    "license": "CC BY-NC-ND 4.0",
+    "icon": "assets/healthcommand/logo.png",
+    "environment": "*",
+    "entrypoints": {
+        "main": [
+            "com.tristankechlo.healthcommand.HealthCommandMain"
+        ]
+    },
+    "mixins": [
+        "healthcommand.mixins.json"
+    ],
+    "depends": {
+        "fabricloader": ">=0.7.4",
+        "fabric": "*",
+        "minecraft": "1.16.5"
+    }
+}
