@@ -6,7 +6,7 @@ issueTrackerURL="https://github.com/tristankechlo/HealthCommand/issues"
 
 [[mods]]
 modId="healthcommand"
-version="1.18.1 - 1.2"
+version="1.18.2-1.3"
 displayName="Health Command"
 displayURL="https://www.curseforge.com/minecraft/mc-mods/health-command"
 #logoFile="examplemod.png"
