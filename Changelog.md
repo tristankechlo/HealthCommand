@@ -6,7 +6,6 @@
  - add command `healthcommand`
     - `/healthcommand github` shows the url to the github page
     - `/healthcommand discord` shows the url to the discord server
-    - `/healthcommand wiki` shows the url to the wiki
     - `/healthcommand issues` shows the url to the issues page
     - `/healthcommand curseforge` shows the url to the curseforge page
     - `/healthcommand modrinth` shows the url to the modrinth page
