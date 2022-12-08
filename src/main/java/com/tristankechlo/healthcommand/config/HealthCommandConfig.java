@@ -1,50 +1,35 @@
 package com.tristankechlo.healthcommand.config;
 
-import com.tristankechlo.healthcommand.HealthCommandMain;
+import com.google.gson.JsonObject;
+import com.tristankechlo.healthcommand.config.values.BooleanValue;
+import com.tristankechlo.healthcommand.config.values.IntegerValue;
 
-import net.minecraftforge.common.ForgeConfigSpec;
-import net.minecraftforge.common.ForgeConfigSpec.BooleanValue;
-import net.minecraftforge.common.ForgeConfigSpec.IntValue;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.config.ModConfig;
+public final class HealthCommandConfig {
 
-@Mod.EventBusSubscriber
-public class HealthCommandConfig {
+    /* the permission level needed to execute this command */
+    public static final IntegerValue permissionLevel = new IntegerValue("requiredPermissionLevel", 2, 0, 4);
+    /* whether or not the health of the entity should increase beyond the maximum health for adding health */
+    public static final BooleanValue goBeyondMaxHealthForAdding = new BooleanValue("goBeyondMaxHealthForAdding", true);
+    /* whether or not the health of the entity should increase beyond the maximum health for setting health */
+    public static final BooleanValue goBeyondMaxHealthForSetting = new BooleanValue("goBeyondMaxHealthForSetting", true);
 
-	private static final ForgeConfigSpec.Builder BUILDER = new ForgeConfigSpec.Builder();
-	public static final Server SERVER = new Server(BUILDER);
-	public static final ForgeConfigSpec spec = BUILDER.build();
+    public static void setToDefault() {
+        permissionLevel.setToDefault();
+        goBeyondMaxHealthForAdding.setToDefault();
+        goBeyondMaxHealthForSetting.setToDefault();
+    }
 
-	public static class Server {
+    public static JsonObject serialize(JsonObject json) {
+        permissionLevel.serialize(json);
+        goBeyondMaxHealthForAdding.serialize(json);
+        goBeyondMaxHealthForSetting.serialize(json);
+        return json;
+    }
 
-		public final IntValue permissionLevel;
-		public final BooleanValue goBeyondMaxHealthForAdding;
-		public final BooleanValue goBeyondMaxHealthForSetting;
-
-		Server(ForgeConfigSpec.Builder builder) {
-			builder.comment("options for the command health").push("HealthCommand");
-			permissionLevel = builder.comment("the permission level needed to execute this command").worldRestart()
-					.defineInRange("permissionLevel", 2, 0, 4);
-			goBeyondMaxHealthForAdding = builder.comment(
-					"whether or not the health of the entity should increase beyond the maximum health for adding health")
-					.worldRestart().define("goBeyondMaxHealthForAdding", true);
-			goBeyondMaxHealthForSetting = builder.comment(
-					"whether or not the health of the entity should increase beyond the maximum health for setting health")
-					.worldRestart().define("goBeyondMaxHealthForSetting", true);
-			builder.pop();
-		}
-
-	}
-
-	@SubscribeEvent
-	public static void onLoad(final ModConfig.Loading configEvent) {
-		HealthCommandMain.LOGGER.debug("Loaded config file {}", configEvent.getConfig().getFileName());
-	}
-
-	@SubscribeEvent
-	public static void onFileChange(final ModConfig.Reloading configEvent) {
-		HealthCommandMain.LOGGER.debug("Config just got changed on the file system!");
-	}
+    public static void deserialize(JsonObject json) {
+        permissionLevel.deserialize(json);
+        goBeyondMaxHealthForAdding.deserialize(json);
+        goBeyondMaxHealthForSetting.deserialize(json);
+    }
 
 }

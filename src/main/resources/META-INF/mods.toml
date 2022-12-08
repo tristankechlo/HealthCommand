@@ -1,12 +1,12 @@
 modLoader="javafml"
-loaderVersion="[32,)"
+loaderVersion="[36,)"
 license="CC BY-NC-ND 4.0"
 showAsResourcePack=false
 issueTrackerURL="https://github.com/tristankechlo/HealthCommand/issues"
 
 [[mods]]
 modId="healthcommand"
-version="1.16.5 - 1.2"
+version="1.16.5-1.3"
 displayName="Health Command"
 displayURL="https://www.curseforge.com/minecraft/mc-mods/health-command"
 #logoFile="examplemod.png"
@@ -17,13 +17,13 @@ description='''adds a simple /health command'''
 [[dependencies.healthcommand]]
     modId="forge"
     mandatory=true
-    versionRange="[32,)"
+    versionRange="[36,)"
     ordering="NONE"
     side="BOTH"
 	
 [[dependencies.healthcommand]]
     modId="minecraft"
     mandatory=true
-    versionRange="[1.16.1,1.16.5]"
+    versionRange="[1.16.5,1.17]"
     ordering="NONE"
     side="BOTH"
