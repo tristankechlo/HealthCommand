@@ -3,7 +3,7 @@
 ### Version 1.19.3 - 1.3
 - port to 1.19.3
 - move config to json format to have the same config on forge and fabric
-- add command `healthcommand`
+- add command `/healthcommand`
     - `/healthcommand github` shows the url to the github page
     - `/healthcommand discord` shows the url to the discord server
     - `/healthcommand wiki` shows the url to the wiki
@@ -11,9 +11,9 @@
     - `/healthcommand curseforge` shows the url to the curseforge page
     - `/healthcommand modrinth` shows the url to the modrinth page
     - `/healthcommand config`
-        - `healthcommand config reload` reloads the config
-        - `healthcommand config show` shows the config
-        - `healthcommand config reset` resets the config to its default values
+        - `/healthcommand config reload` reloads the config
+        - `/healthcommand config show` shows the config
+        - `/healthcommand config reset` resets the config to its default values
 
 ### Version 1.19.1 - 1.2
 - port to 1.19.1
