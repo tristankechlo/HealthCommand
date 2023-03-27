@@ -1,5 +1,8 @@
 # Changelog
 
+### Version 1.19.4 - 1.3
+ - port to 1.19.4
+
 ### Version 1.19.3 - 1.3
 - port to 1.19.3
 - move config to json format to have the same config on forge and fabric
