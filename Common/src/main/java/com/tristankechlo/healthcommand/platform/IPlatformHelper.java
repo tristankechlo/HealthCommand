@@ -1,35 +1,22 @@
 package com.tristankechlo.healthcommand.platform;
 
+import com.tristankechlo.healthcommand.HealthCommandMain;
+
 import java.nio.file.Path;
+import java.util.ServiceLoader;
 
 public interface IPlatformHelper {
 
-    /**
-     * Gets the name of the current platform
-     *
-     * @return The name of the current platform.
-     */
-    String getPlatformName();
+    IPlatformHelper INSTANCE = load(IPlatformHelper.class);
 
-    /**
-     * Checks if a mod with the given id is loaded.
-     *
-     * @param modId The mod to check if it is loaded.
-     * @return True if the mod is loaded, false otherwise.
-     */
-    boolean isModLoaded(String modId);
+    static <T> T load(Class<T> clazz) {
+        final T loadedService = ServiceLoader.load(clazz)
+                .findFirst()
+                .orElseThrow(() -> new NullPointerException("Failed to load service for " + clazz.getName()));
+        HealthCommandMain.LOGGER.debug("Loaded {} for service {}", loadedService, clazz);
+        return loadedService;
+    }
 
-    /**
-     * Check if the game is currently in a development environment.
-     *
-     * @return True if in a development environment, false otherwise.
-     */
-    boolean isDevelopmentEnvironment();
-
-    /**
-     * Gets the path to the directory where the configs will be placed.
-     *
-     * @return The path to the directory where the configs will be placed.
-     */
     Path getConfigDirectory();
+
 }
