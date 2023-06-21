@@ -1,17 +1,26 @@
 plugins {
-    id 'fabric-loom' version '0.12-SNAPSHOT'
-//    id 'maven-publish'
+    id 'java'
     id 'idea'
+    id 'fabric-loom'
 }
 
-archivesBaseName = "${mod_id}-fabric-${minecraft_version}"
+base {
+    version = "${minecraft_version}-${mod_version}"
+    archivesBaseName = "${mod_id}-fabric"
+}
+
+repositories {
+    maven {
+        url "https://maven.terraformersmc.com/releases"
+    }
+}
 
 dependencies {
     minecraft "com.mojang:minecraft:${minecraft_version}"
     mappings loom.officialMojangMappings()
     modImplementation "net.fabricmc:fabric-loader:${fabric_loader_version}"
     modImplementation "net.fabricmc.fabric-api:fabric-api:${fabric_version}"
-    implementation group: 'com.google.code.findbugs', name: 'jsr305', version: '3.0.1'
+    modImplementation "com.terraformersmc:modmenu:${modmenu_version}"
     implementation project(":Common")
 }
 
@@ -33,6 +42,12 @@ loom {
     }
 }
 
+tasks.withType(JavaCompile).configureEach {
+    source(project(":Common").sourceSets.main.allSource)
+}
+tasks.withType(Javadoc).configureEach {
+    source(project(":Common").sourceSets.main.allJava)
+}
 
 processResources {
     from project(":Common").sourceSets.main.resources
