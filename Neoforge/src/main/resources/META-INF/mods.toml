@@ -1,0 +1,29 @@
+modLoader="javafml"
+loaderVersion="[2,)"
+license="CC BY-NC-ND 4.0"
+showAsResourcePack=false
+issueTrackerURL="https://github.com/tristankechlo/HealthCommand/issues"
+
+[[mods]]
+modId="healthcommand"
+version="${version}"
+displayName="Health Command"
+displayURL="https://www.curseforge.com/minecraft/mc-mods/health-command"
+#logoFile="examplemod.png"
+#credits="Thanks for this example mod goes to Java"
+authors="Buecher_wurm"
+description='''adds a simple /health command'''
+
+[[dependencies.healthcommand]]
+    modId="neoforge"
+    type="required"
+    versionRange = "[20.4,)"
+    ordering="NONE"
+    side="BOTH"
+
+[[dependencies.healthcommand]]
+    modId="minecraft"
+    type="required"
+    versionRange="[1.20.4,1.21)"
+    ordering="NONE"
+    side="BOTH"
