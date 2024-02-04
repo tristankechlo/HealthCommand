@@ -24,9 +24,7 @@ public class HealthCommand {
 
     private static final UUID UUID = java.util.UUID.fromString("cd4b25c8-660c-499f-a06f-2a818257c121");
     private static final String PREFIX = "commands.healthcommand.health";
-    private static final Supplier<String> SUPPLIER = () -> {
-        return HealthCommandMain.MOD_ID + ":" + HealthCommand.class.getSimpleName();
-    };
+    private static final String ATTRIBUTE_NAME = HealthCommandMain.MOD_ID + ":" + HealthCommand.class.getSimpleName();
 
     public static void register(final CommandDispatcher<CommandSourceStack> dispatcher) {
         dispatcher.register(Commands.literal("health").requires((player) -> {
@@ -147,7 +145,7 @@ public class HealthCommand {
             // decrease old modifier
             attribute.removeModifier(UUID);
             final double amount = newHealth - attribute.getBaseValue();
-            attribute.addPermanentModifier(new AttributeModifier(UUID, SUPPLIER, amount, Operation.ADDITION));
+            attribute.addPermanentModifier(new AttributeModifier(UUID, ATTRIBUTE_NAME, amount, Operation.ADDITION));
         } else {
             boolean increaseBeyond = goBeyondMaxHealth.get();
             if (increaseBeyond) {
@@ -155,7 +153,7 @@ public class HealthCommand {
                 attribute.removeModifier(UUID);
                 // increase maximum health of the entity
                 final double amount = newHealth - attribute.getBaseValue();
-                attribute.addPermanentModifier(new AttributeModifier(UUID, SUPPLIER, amount, Operation.ADDITION));
+                attribute.addPermanentModifier(new AttributeModifier(UUID, ATTRIBUTE_NAME, amount, Operation.ADDITION));
                 // set new health
                 livingEntity.setHealth(newHealth);
             } else {
