@@ -1,6 +1,6 @@
 buildscript {
     repositories {
-        maven { url = 'https://files.minecraftforge.net/maven' }
+        maven { url = 'https://maven.minecraftforge.net/' }
         mavenCentral()
     }
     dependencies {
@@ -8,6 +8,7 @@ buildscript {
     }
 }
 apply plugin: 'net.minecraftforge.gradle'
+apply plugin: 'eclipse'
 
 version = "${minecraft_version}-${mod_version}"
 archivesBaseName = "${mod_id}-forge"
@@ -36,12 +37,11 @@ minecraft {
     }
 }
 
-repositories {
-}
-
-dependencies {    
+dependencies {
     minecraft "net.minecraftforge:forge:${minecraft_version}-${forge_version}"
 }
+
+jar.finalizedBy('reobfJar')
 
 jar {
     from rootProject.file('LICENSE')
@@ -49,9 +49,9 @@ jar {
         attributes([
             'Specification-Title'     : mod_name,
             'Specification-Vendor'    : mod_author,
-            'Specification-Version'   : project.jar.archiveVersion,
+            'Specification-Version'   : "${version}",
             'Implementation-Title'    : project.name,
-            'Implementation-Version'  : project.jar.archiveVersion,
+            'Implementation-Version'  : "${version}",
             'Implementation-Vendor'   : mod_author,
             'Implementation-Timestamp': new Date().format("yyyy-MM-dd'T'HH:mm:ssZ"),
             'Timestamp'               : System.currentTimeMillis(),
