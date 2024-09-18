@@ -20,7 +20,6 @@
         ]
     },
     "mixins": [
-        "healthcommand.mixins.json"
     ],
     "depends": {
         "fabricloader": ">=${fabric_loader_min}",
