@@ -1,8 +1,10 @@
 # Changelog
 
-### Version 1.16.5 - 1.4
+### Version 1.16.5 - 1.4.1
 
 - add ModMenu support
+- remove translation files
+  - now displays proper messages when only installed on the server
 
 ### Version 1.16.5 - 1.3
 

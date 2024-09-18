@@ -12,7 +12,7 @@ import net.minecraft.entity.attribute.EntityAttributeModifier;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.server.network.ServerPlayerEntity;
-import net.minecraft.text.TranslatableText;
+import net.minecraft.text.LiteralText;
 
 import java.util.Collection;
 import java.util.UUID;
@@ -75,11 +75,11 @@ public class HealthCommand {
 
         // send response
         if (i == 0) {
-            source.sendError(new TranslatableText(PREFIX + ".no_entity_found"));
+            source.sendError(new LiteralText("There were no entities with a health attribute in your selection."));
         } else if (i == 1 && lastModified != null) {
-            source.sendFeedback(new TranslatableText(PREFIX + ".new_health", lastModified.getName().getString(), lastModified.getHealth()), false);
+            source.sendFeedback(new LiteralText("New health of " + lastModified.getName().getString() + " is " + lastModified.getHealth()), false);
         } else {
-            source.sendFeedback(new TranslatableText(PREFIX + ".add_health_multi", amount, i), false);
+            source.sendFeedback(new LiteralText("Health of " + i + " entities is increased by " + amount), false);
         }
         return i;
     }
@@ -106,11 +106,11 @@ public class HealthCommand {
 
         // send response
         if (i == 0) {
-            source.sendError(new TranslatableText(PREFIX + ".no_entity_found"));
+            source.sendError(new LiteralText("There were no entities with a health attribute in your selection."));
         } else if (i == 1 && lastModified != null) {
-            source.sendFeedback(new TranslatableText(PREFIX + ".new_health", lastModified.getName().getString(), lastModified.getHealth()), false);
+            source.sendFeedback(new LiteralText("New health of " + lastModified.getName().getString() + " is " + lastModified.getHealth()), false);
         } else {
-            source.sendFeedback(new TranslatableText(PREFIX + ".new_health_multi", i, amount), false);
+            source.sendFeedback(new LiteralText("New health of " + i + " entities is now " + amount), false);
         }
         return i;
     }
@@ -122,7 +122,7 @@ public class HealthCommand {
             }
             LivingEntity livingEntity = (LivingEntity) entity;
             float health = livingEntity.getHealth();
-            source.sendFeedback(new TranslatableText(PREFIX + ".get_health", livingEntity.getName().getString(), health), false);
+            source.sendFeedback(new LiteralText(livingEntity.getName().getString() + " has " + health + " health left."), false);
         }
         return 1;
     }
@@ -137,7 +137,7 @@ public class HealthCommand {
             attribute.removeModifier(UUID);
             final float health = livingEntity.getHealth();
             livingEntity.setHealth(health);
-            source.sendFeedback(new TranslatableText(PREFIX + ".reset_health", livingEntity.getName().getString()), false);
+            source.sendFeedback(new LiteralText("Resetted the health of " + livingEntity.getName().getString()), false);
         }
         return 1;
     }

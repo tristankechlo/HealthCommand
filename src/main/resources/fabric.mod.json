@@ -25,7 +25,7 @@
         "fabricloader": ">=${fabric_loader_min}",
         "fabric": "*",
         "minecraft": ">=${fabric_range_min_inclusive} <${fabric_range_max_exclusive}",
-        "java": ">=${java_version}"
+        "java": ">=8"
     },
     "custom": {
         "modmenu": {
