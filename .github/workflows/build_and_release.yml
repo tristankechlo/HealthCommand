@@ -73,7 +73,7 @@ jobs:
         run: |
           mkdir ./dist
           mv ./forge/build/libs/${{ env.MODID }}-*.jar ./dist
-          rm -f ./fabric/build/libs/${{ env.MODID }}-*-dev.jar ./dist
+          rm -f ./fabric/build/libs/${{ env.MODID }}-*-dev.jar
           mv ./fabric/build/libs/${{ env.MODID }}-*.jar ./dist
           echo -e "$(ls -lahG ./dist)"
 
