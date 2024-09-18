@@ -1,5 +1,10 @@
 # Changelog
 
+### Version 1.15.2 - 1.4.1
+
+- remove translation files
+    - now displays proper messages when only installed on the server
+
 ### Version 1.15.2 - 1.4
 
 - add command `/healthcommand`
