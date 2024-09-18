@@ -1,27 +1,28 @@
 plugins {
-    id 'fabric-loom' version '0.7-SNAPSHOT'
+    id 'fabric-loom' version '1.7-SNAPSHOT'
 }
-
-sourceCompatibility = JavaVersion.VERSION_1_8
-targetCompatibility = JavaVersion.VERSION_1_8
 
 archivesBaseName = "healthcommand"
 version = "fabric-${minecraft_version}-${mod_version}"
 
-repositories {
-    maven {
-        url "https://maven.terraformersmc.com/releases"
-    }
+java {
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
 }
 
 dependencies {
     minecraft "com.mojang:minecraft:${project.minecraft_version}"
     mappings "net.fabricmc:yarn:${project.yarn_mappings}:v2"
     modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
-    modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
+    modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_api_version}"
     modImplementation "com.terraformersmc:modmenu:${modmenu_version}"
 }
 
+repositories {
+    maven {
+        url "https://maven.terraformersmc.com/releases"
+    }
+}
 
 tasks.withType(JavaCompile).configureEach {
     it.options.encoding = "UTF-8"
