@@ -8,29 +8,9 @@ archivesBaseName = "${mod_id}-common-${minecraft_version}"
 
 minecraft {
     version(minecraft_version)
-    runs {
-        if (project.hasProperty('common_runs_enabled') ? project.findProperty('common_runs_enabled').toBoolean() : true) {
-
-            server('Common Server') {
-                workingDirectory(this.file("run"))
-            }
-            client('Common Client') {
-                workingDirectory(this.file("run"))
-            }
-        }
-    }
 }
 
 dependencies {
     compileOnly group:'org.spongepowered', name:'mixin', version:'0.8.4'
 }
 
-processResources {
-
-    def buildProps = project.properties.clone()
-
-    filesMatching(['pack.mcmeta']) {
-
-        expand buildProps
-    }
-}

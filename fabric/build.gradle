@@ -3,7 +3,8 @@ plugins {
     id 'idea'
 }
 
-archivesBaseName = "${mod_id}-fabric-${minecraft_version}"
+version = "${minecraft_version}-${mod_version}"
+archivesBaseName = "${mod_id}-fabric"
 
 dependencies {
     minecraft "com.mojang:minecraft:${minecraft_version}"
@@ -30,14 +31,8 @@ loom {
     }
 }
 
-
 processResources {
     from project(":common").sourceSets.main.resources
-    inputs.property "version", project.version
-
-    filesMatching("fabric.mod.json") {
-        expand "version": project.version
-    }
 }
 
 tasks.withType(JavaCompile) {
