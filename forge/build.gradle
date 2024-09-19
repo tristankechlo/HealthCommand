@@ -28,7 +28,7 @@ minecraft {
             mods {
                 modClientRun {
                     source sourceSets.main
-                    source project(":Common").sourceSets.main
+                    source project(":common").sourceSets.main
                 }
             }
         }
@@ -42,7 +42,7 @@ minecraft {
             mods {
                 modServerRun {
                     source sourceSets.main
-                    source project(":Common").sourceSets.main
+                    source project(":common").sourceSets.main
                 }
             }
         }
@@ -51,18 +51,18 @@ minecraft {
 
 dependencies {
     minecraft "net.minecraftforge:forge:${minecraft_version}-${forge_version}"
-    compileOnly project(":Common")
+    compileOnly project(":common")
 }
 
 tasks.withType(JavaCompile).configureEach {
-    source(project(":Common").sourceSets.main.allSource)
+    source(project(":common").sourceSets.main.allSource)
 }
 tasks.withType(Javadoc).configureEach {
-    source(project(":Common").sourceSets.main.allJava)
+    source(project(":common").sourceSets.main.allJava)
 }
 
 processResources {
-    from project(":Common").sourceSets.main.resources
+    from project(":common").sourceSets.main.resources
     inputs.property "version", project.version
 
     filesMatching("META-INF/mods.toml") {
