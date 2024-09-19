@@ -7,22 +7,14 @@ buildscript {
         classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '5.1.+', changing: true
     }
 }
-apply plugin: 'java'
 apply plugin: 'net.minecraftforge.gradle'
-//apply plugin: 'eclipse'
-//apply plugin: 'maven-publish'
+apply plugin: 'java'
 
-archivesBaseName = "${mod_id}-forge-${minecraft_version}"
+version = "${minecraft_version}-${mod_version}"
+archivesBaseName = "${mod_id}-forge"
 
 minecraft {
     mappings channel: 'official', version: minecraft_version
-
-    if (project.hasProperty('forge_ats_enabled') && project.findProperty('forge_ats_enabled').toBoolean()) {
-        // This location is hardcoded in Forge and can not be changed.
-        // https://github.com/MinecraftForge/MinecraftForge/blob/be1698bb1554f9c8fa2f58e32b9ab70bc4385e60/fmlloader/src/main/java/net/minecraftforge/fml/loading/moddiscovery/ModFile.java#L123
-        accessTransformer = file('src/main/resources/META-INF/accesstransformer.cfg')
-        project.logger.debug('Forge Access Transformers are enabled for this project.')
-    }
 
     runs {
         client {
