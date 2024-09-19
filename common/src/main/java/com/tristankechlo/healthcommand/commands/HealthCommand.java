@@ -70,11 +70,13 @@ public class HealthCommand {
 
         // send response
         if (i == 0) {
-            source.sendFailure(Component.translatable(PREFIX + ".no_entity_found"));
+            source.sendFailure(Component.literal("There were no entities with a health attribute in your selection."));
         } else if (i == 1 && lastModified != null) {
-            source.sendSuccess(translatable(PREFIX + ".new_health", lastModified.getName().getString(), lastModified.getHealth()), false);
+            final String m = "New health of " + lastModified.getName().getString() + " is " + lastModified.getHealth();
+            source.sendSuccess(() -> Component.literal(m), false);
         } else {
-            source.sendSuccess(translatable(PREFIX + ".add_health_multi", amount, i), false);
+            final String m = "Health of " + i + " entities is increased by " + amount;
+            source.sendSuccess(() -> Component.literal(m), false);
         }
         return i;
     }
@@ -101,11 +103,13 @@ public class HealthCommand {
 
         // send response
         if (i == 0) {
-            source.sendFailure(Component.translatable(PREFIX + ".no_entity_found"));
+            source.sendFailure(Component.literal("There were no entities with a health attribute in your selection."));
         } else if (i == 1 && lastModified != null) {
-            source.sendSuccess(translatable(PREFIX + ".new_health", lastModified.getName().getString(), lastModified.getHealth()), false);
+            final String m = "New health of " + lastModified.getName().getString() + " is " + lastModified.getHealth();
+            source.sendSuccess(() -> Component.literal(m), false);
         } else {
-            source.sendSuccess(translatable(PREFIX + ".new_health_multi", i, amount), false);
+            final String m = "New health of " + i + " entities is now " + amount;
+            source.sendSuccess(() -> Component.literal(m), false);
         }
         return i;
     }
@@ -117,7 +121,8 @@ public class HealthCommand {
             }
             LivingEntity livingEntity = (LivingEntity) entity;
             float health = livingEntity.getHealth();
-            source.sendSuccess(() -> Component.translatable(PREFIX + ".get_health", livingEntity.getName().getString(), health), false);
+            final String m = livingEntity.getName().getString() + " has " + health + " health left.";
+            source.sendSuccess(() -> Component.literal(m), false);
         }
         return 1;
     }
@@ -132,7 +137,8 @@ public class HealthCommand {
             attribute.removeModifier(UUID);
             final float health = livingEntity.getHealth();
             livingEntity.setHealth(health);
-            source.sendSuccess(() -> Component.translatable(PREFIX + ".reset_health", livingEntity.getName().getString()), false);
+            final String m = "Resetted the health of " + livingEntity.getName().getString();
+            source.sendSuccess(() -> Component.literal(m), false);
         }
         return 1;
     }
@@ -162,10 +168,6 @@ public class HealthCommand {
             }
         }
         return true;
-    }
-
-    private static Supplier<Component> translatable(String textKey, Object... args) {
-        return () -> Component.translatable(textKey, args);
     }
 
 }
