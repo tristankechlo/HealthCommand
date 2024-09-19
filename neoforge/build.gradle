@@ -37,15 +37,7 @@ Spec<Task> notNeoTask = { Task it -> !it.name.startsWith("neo") } as Spec<Task>
 tasks.withType(JavaCompile).matching(notNeoTask).configureEach {
     source(project(":common").sourceSets.main.allSource)
 }
-tasks.withType(Javadoc).matching(notNeoTask).configureEach {
-    source(project(":common").sourceSets.main.allJava)
-}
 
 processResources {
     from project(":common").sourceSets.main.resources
-    inputs.property "version", project.version
-
-    filesMatching("META-INF/mods.toml") {
-        expand "version": project.version
-    }
 }

@@ -10,7 +10,6 @@ base {
 
 minecraft {
     mappings channel: 'official', version: minecraft_version
-
     copyIdeResources = true //Calls processResources when in dev
 
     if (file('src/main/resources/META-INF/accesstransformer.cfg').exists()) {
@@ -57,17 +56,9 @@ dependencies {
 tasks.withType(JavaCompile).configureEach {
     source(project(":common").sourceSets.main.allSource)
 }
-tasks.withType(Javadoc).configureEach {
-    source(project(":common").sourceSets.main.allJava)
-}
 
 processResources {
     from project(":common").sourceSets.main.resources
-    inputs.property "version", project.version
-
-    filesMatching("META-INF/mods.toml") {
-        expand "version": project.version
-    }
 }
 
 jar.finalizedBy('reobfJar')
