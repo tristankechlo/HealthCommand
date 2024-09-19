@@ -3,6 +3,8 @@
 ### Version 1.19.4 - 1.4.1
 
 - add ModMenu support
+- remove translation files
+    - now displays proper messages when only installed on the server
 
 ### Version 1.19.4 - 1.3
 
