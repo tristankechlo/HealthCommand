@@ -27,5 +27,14 @@
         "fabric-api": "*",
         "minecraft": ">=${fabric_range_min_inclusive} <${fabric_range_max_exclusive}",
         "java": ">=${java_version}"
+    },
+    "custom": {
+        "modmenu": {
+            "links": {
+                "modmenu.discord": "https://discord.gg/bhUaWhq",
+                "modmenu.curseforge": "https://www.curseforge.com/minecraft/mc-mods/health-command",
+                "modmenu.modrinth": "https://modrinth.com/mod/health-command"
+            }
+        }
     }
 }
