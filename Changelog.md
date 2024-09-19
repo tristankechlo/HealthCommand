@@ -1,5 +1,9 @@
 # Changelog
 
+### Version 1.19.4 - 1.4.2
+
+- fix modname in `fabric.mod.json`
+
 ### Version 1.19.4 - 1.4.1
 
 - add ModMenu support

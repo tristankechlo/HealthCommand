@@ -2,7 +2,7 @@
     "schemaVersion": 1,
     "id": "healthcommand",
     "version": "${version}",
-    "name": "healthcommand",
+    "name": "Health Command",
     "description": "adds a simple /health command",
     "authors": [
         "Buecher_wurm"
