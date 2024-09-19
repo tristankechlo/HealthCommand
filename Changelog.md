@@ -1,5 +1,10 @@
 # Changelog
 
+### Version 1.18.2 - 1.4.2
+
+- update `icon.png`
+- fix modname in `fabric.mod.json`
+
 ### Version 1.18.2 - 1.4.1
 
 - add ModMenu support
