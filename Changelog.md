@@ -1,5 +1,9 @@
 # Changelog
 
+### Version 1.20.4 - 1.4
+
+- add ModMenu support
+
 ### Version 1.20.4 - 1.3
 
 - port to 1.20.4
