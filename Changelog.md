@@ -1,15 +1,10 @@
 # Changelog
 
-### Version 1.20.4 - 1.4.1
+### Version 1.20.1 - 1.4.1
 
 - add ModMenu support
 - remove translation files
     - now displays proper messages when only installed on the server
-
-### Version 1.20.4 - 1.3
-
-- port to 1.20.4
-- add neoforge support
 
 ### Version 1.20.1 - 1.3
 
