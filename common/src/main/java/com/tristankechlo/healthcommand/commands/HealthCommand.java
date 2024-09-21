@@ -151,7 +151,7 @@ public class HealthCommand {
             // decrease old modifier
             attribute.removeModifier(UUID);
             final double amount = newHealth - attribute.getBaseValue();
-            attribute.addPermanentModifier(new AttributeModifier(UUID, ATTRIBUTE_NAME, amount, Operation.ADDITION));
+            attribute.addPermanentModifier(new AttributeModifier(UUID, ATTRIBUTE_NAME, amount, Operation.ADD_VALUE));
         } else {
             boolean increaseBeyond = goBeyondMaxHealth.get();
             if (increaseBeyond) {
@@ -159,7 +159,7 @@ public class HealthCommand {
                 attribute.removeModifier(UUID);
                 // increase maximum health of the entity
                 final double amount = newHealth - attribute.getBaseValue();
-                attribute.addPermanentModifier(new AttributeModifier(UUID, ATTRIBUTE_NAME, amount, Operation.ADDITION));
+                attribute.addPermanentModifier(new AttributeModifier(UUID, ATTRIBUTE_NAME, amount, Operation.ADD_VALUE));
                 // set new health
                 livingEntity.setHealth(newHealth);
             } else {
