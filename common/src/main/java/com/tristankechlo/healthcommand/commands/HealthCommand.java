@@ -8,6 +8,7 @@ import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.commands.arguments.EntityArgument;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
@@ -17,14 +18,11 @@ import net.minecraft.world.entity.ai.attributes.AttributeModifier.Operation;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 
 import java.util.Collection;
-import java.util.UUID;
 import java.util.function.Supplier;
 
 public class HealthCommand {
 
-    private static final UUID UUID = java.util.UUID.fromString("cd4b25c8-660c-499f-a06f-2a818257c121");
-    private static final String PREFIX = "commands.healthcommand.health";
-    private static final String ATTRIBUTE_NAME = HealthCommandMain.MOD_ID + ":" + HealthCommand.class.getSimpleName();
+    private static final ResourceLocation ATTRIBUTE_ID = ResourceLocation.fromNamespaceAndPath(HealthCommandMain.MOD_ID, "main");
 
     public static void register(final CommandDispatcher<CommandSourceStack> dispatcher) {
         dispatcher.register(Commands.literal("health").requires((player) -> {
@@ -134,7 +132,7 @@ public class HealthCommand {
             }
             LivingEntity livingEntity = (LivingEntity) entity;
             AttributeInstance attribute = livingEntity.getAttribute(Attributes.MAX_HEALTH);
-            attribute.removeModifier(UUID);
+            attribute.removeModifier(ATTRIBUTE_ID);
             final float health = livingEntity.getHealth();
             livingEntity.setHealth(health);
             final String m = "Resetted the health of " + livingEntity.getName().getString();
@@ -149,17 +147,17 @@ public class HealthCommand {
             // no need for new maximum health here
             livingEntity.setHealth(newHealth);
             // decrease old modifier
-            attribute.removeModifier(UUID);
+            attribute.removeModifier(ATTRIBUTE_ID);
             final double amount = newHealth - attribute.getBaseValue();
-            attribute.addPermanentModifier(new AttributeModifier(UUID, ATTRIBUTE_NAME, amount, Operation.ADD_VALUE));
+            attribute.addPermanentModifier(new AttributeModifier(ATTRIBUTE_ID, amount, Operation.ADD_VALUE));
         } else {
             boolean increaseBeyond = goBeyondMaxHealth.get();
             if (increaseBeyond) {
                 // remove old attribute
-                attribute.removeModifier(UUID);
+                attribute.removeModifier(ATTRIBUTE_ID);
                 // increase maximum health of the entity
                 final double amount = newHealth - attribute.getBaseValue();
-                attribute.addPermanentModifier(new AttributeModifier(UUID, ATTRIBUTE_NAME, amount, Operation.ADD_VALUE));
+                attribute.addPermanentModifier(new AttributeModifier(ATTRIBUTE_ID, amount, Operation.ADD_VALUE));
                 // set new health
                 livingEntity.setHealth(newHealth);
             } else {
