@@ -13,7 +13,7 @@
         "homepage": "https://legacy.curseforge.com/minecraft/mc-mods/health-command"
     },
     "license": "CC BY-NC-ND 4.0",
-    "icon": "logo.png",
+    "icon": "pack.png",
     "environment": "*",
     "entrypoints": {
         "main": [

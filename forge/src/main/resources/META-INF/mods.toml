@@ -1,29 +1,29 @@
-modLoader="javafml"
-loaderVersion="${forge_loader_range}"
-license="CC BY-NC-ND 4.0"
-showAsResourcePack=false
-issueTrackerURL="https://github.com/tristankechlo/HealthCommand/issues"
+modLoader = "javafml"
+loaderVersion = "${forge_loader_range}"
+license = "CC BY-NC-ND 4.0"
+showAsResourcePack = false
+issueTrackerURL = "https://github.com/tristankechlo/HealthCommand/issues"
 
 [[mods]]
-    modId="healthcommand"
-    version="${version}"
-    displayName="Health Command"
-    displayURL="https://www.curseforge.com/minecraft/mc-mods/health-command"
-    #logoFile="examplemod.png"
+    modId = "healthcommand"
+    version = "${version}"
+    displayName = "Health Command"
+    displayURL = "https://www.curseforge.com/minecraft/mc-mods/health-command"
+    logoFile = "pack.png"
     #credits="Thanks for this example mod goes to Java"
-    authors="Buecher_wurm"
-    description='''adds a simple /health command'''
+    authors = "Buecher_wurm"
+    description = '''adds a simple /health command'''
 
 [[dependencies.healthcommand]]
-    modId="forge"
-    mandatory=true
-    versionRange="${forge_loader_range}"
-    ordering="NONE"
-    side="BOTH"
-	
+    modId = "forge"
+    mandatory = true
+    versionRange = "${forge_loader_range}"
+    ordering = "NONE"
+    side = "BOTH"
+
 [[dependencies.healthcommand]]
-    modId="minecraft"
-    mandatory=true
-    versionRange="${version_range}"
-    ordering="NONE"
-    side="BOTH"
+    modId = "minecraft"
+    mandatory = true
+    versionRange = "${version_range}"
+    ordering = "NONE"
+    side = "BOTH"
