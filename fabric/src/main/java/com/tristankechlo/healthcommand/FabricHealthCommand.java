@@ -6,6 +6,7 @@ import com.tristankechlo.healthcommand.config.ConfigManager;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
+import net.fabricmc.loader.api.FabricLoader;
 
 public class FabricHealthCommand implements ModInitializer {
 
@@ -13,7 +14,7 @@ public class FabricHealthCommand implements ModInitializer {
     public void onInitialize() {
         // setup configs
         ServerLifecycleEvents.SERVER_STARTING.register((server) -> {
-            ConfigManager.loadAndVerifyConfig();
+            ConfigManager.loadAndVerifyConfig(FabricLoader.getInstance().getConfigDir());
         });
 
         // register commands

@@ -1,9 +1,11 @@
 # Changelog
 
-### Version 1.21.4 - 1.4.1
+### Version 1.21.4 - 1.4.2
 
 - port to 1.21.4
-- common icon for all mod-loaders
+- common icon across all mod-loaders
+- better config handling
+- smaller mod-file
 
 ### Version 1.21.3 - 1.4.1
 

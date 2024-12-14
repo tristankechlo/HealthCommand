@@ -10,7 +10,7 @@ minecraft {
 
     runs {
         client {
-            workingDirectory file('runs/client')
+            workingDirectory file('run')
             ideaModule "${rootProject.name}.${project.name}.main"
             taskName 'Client'
             mods {
@@ -21,7 +21,7 @@ minecraft {
         }
 
         server {
-            workingDirectory file('runs/server')
+            workingDirectory file('run')
             ideaModule "${rootProject.name}.${project.name}.main"
             taskName 'Server'
             mods {
@@ -36,9 +36,6 @@ minecraft {
 dependencies {
     minecraft "net.minecraftforge:forge:${minecraft_version}-${forge_version}"
     implementation('net.sf.jopt-simple:jopt-simple:5.0.4') { version { strictly '5.0.4' } }
-
-    compileOnly group: 'com.google.auto.service', name: 'auto-service', version: auto_service_version
-    annotationProcessor group: 'com.google.auto.service', name: 'auto-service', version: auto_service_version
 }
 
 sourceSets.each {

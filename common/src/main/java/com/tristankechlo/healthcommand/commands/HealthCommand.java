@@ -2,7 +2,7 @@ package com.tristankechlo.healthcommand.commands;
 
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.arguments.IntegerArgumentType;
-import com.tristankechlo.healthcommand.HealthCommandMain;
+import com.tristankechlo.healthcommand.config.ConfigManager;
 import com.tristankechlo.healthcommand.config.HealthCommandConfig;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
@@ -22,11 +22,11 @@ import java.util.function.Supplier;
 
 public class HealthCommand {
 
-    private static final ResourceLocation ATTRIBUTE_ID = ResourceLocation.fromNamespaceAndPath(HealthCommandMain.MOD_ID, "main");
+    private static final ResourceLocation ATTRIBUTE_ID = ResourceLocation.fromNamespaceAndPath("healthcommand", "main");
 
     public static void register(final CommandDispatcher<CommandSourceStack> dispatcher) {
         dispatcher.register(Commands.literal("health").requires((player) -> {
-                    int level = HealthCommandConfig.permissionLevel.get();
+                    int level = HealthCommandConfig.get().permissionLevel();
                     return player.hasPermission(level);
                 }).then(Commands.literal("add").then(Commands.argument("targets", EntityArgument.entities())
                         .then(Commands.argument("amount", IntegerArgumentType.integer()).executes((source) -> {
@@ -43,7 +43,7 @@ public class HealthCommand {
                         .then(Commands.argument("targets", EntityArgument.entities()).executes((source) -> {
                             return resetHealth(source.getSource(), EntityArgument.getEntities(source, "targets"));
                         }))));
-        HealthCommandMain.LOGGER.debug(HealthCommandMain.MOD_ID + ": Health command registered");
+        ConfigManager.LOGGER.info("Command '/health' registered");
     }
 
     private static int addHealth(CommandSourceStack source, Collection<? extends Entity> targets, int amount) {
@@ -61,7 +61,7 @@ public class HealthCommand {
             }
             LivingEntity livingEntity = (LivingEntity) entity;
             lastModified = livingEntity;
-            if (setHealthSingle(livingEntity, livingEntity.getHealth() + amount, HealthCommandConfig.goBeyondMaxHealthForAdding::get)) {
+            if (setHealthSingle(livingEntity, livingEntity.getHealth() + amount, HealthCommandConfig.get()::goBeyondMaxHealthForAdding)) {
                 i++;
             }
         }
@@ -94,7 +94,7 @@ public class HealthCommand {
             }
             LivingEntity livingEntity = (LivingEntity) entity;
             lastModified = livingEntity;
-            if (setHealthSingle(livingEntity, amount, HealthCommandConfig.goBeyondMaxHealthForSetting::get)) {
+            if (setHealthSingle(livingEntity, amount, HealthCommandConfig.get()::goBeyondMaxHealthForSetting)) {
                 i++;
             }
         }

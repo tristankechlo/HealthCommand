@@ -3,88 +3,83 @@ package com.tristankechlo.healthcommand.commands;
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;
-import com.tristankechlo.healthcommand.HealthCommandMain;
 import com.tristankechlo.healthcommand.config.ConfigManager;
 import net.minecraft.ChatFormatting;
 import net.minecraft.commands.CommandSourceStack;
+import net.minecraft.network.chat.ClickEvent;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
 
 import static net.minecraft.commands.Commands.literal;
 
 public class ModCommand {
 
     public static void register(CommandDispatcher<CommandSourceStack> dispatcher) {
-        LiteralArgumentBuilder<CommandSourceStack> command = literal(HealthCommandMain.MOD_ID)
+        LiteralArgumentBuilder<CommandSourceStack> command = literal("healthcommand")
                 .then(literal("config").requires((source) -> source.hasPermission(3))
                         .then(literal("reload").executes(ModCommand::configReload))
                         .then(literal("show").executes(ModCommand::configShow))
                         .then(literal("reset").executes(ModCommand::configReset)))
-                .then(literal("github").executes(ModCommand::github))
-                .then(literal("issue").executes(ModCommand::issue))
-                .then(literal("discord").executes(ModCommand::discord))
-                .then(literal("curseforge").executes(ModCommand::curseforge))
-                .then(literal("modrinth").executes(ModCommand::modrinth));
+                .then(literal("github").executes(ProjectLinks.GITHUB::execute))
+                .then(literal("issue").executes(ProjectLinks.ISSUE::execute))
+                .then(literal("discord").executes(ProjectLinks.DISCORD::execute))
+                .then(literal("curseforge").executes(ProjectLinks.CURSEFORGE::execute))
+                .then(literal("modrinth").executes(ProjectLinks.MODRINTH::execute));
         dispatcher.register(command);
-        HealthCommandMain.LOGGER.info("Command '/{}' registered", HealthCommandMain.MOD_ID);
+        ConfigManager.LOGGER.info("Command '/healthcommand' registered");
     }
 
     private static int configReload(CommandContext<CommandSourceStack> context) {
-        CommandSourceStack source = context.getSource();
         ConfigManager.reloadConfig();
-        ResponseHelper.sendMessageConfigReload(source);
+        MutableComponent message = Component.literal("Config was successfully reloaded.");
+        sendMessage(context.getSource(), message.withStyle(ChatFormatting.WHITE), true);
         return 1;
     }
 
     private static int configShow(CommandContext<CommandSourceStack> context) {
-        CommandSourceStack source = context.getSource();
-        ResponseHelper.sendMessageConfigShow(source);
+        MutableComponent clickableFile = clickableConfig();
+        MutableComponent message = Component.literal("Config-file can be found here: ").append(clickableFile);
+        sendMessage(context.getSource(), message.withStyle(ChatFormatting.WHITE), false);
         return 1;
     }
 
     private static int configReset(CommandContext<CommandSourceStack> context) {
-        CommandSourceStack source = context.getSource();
         ConfigManager.resetConfig();
-        ResponseHelper.sendMessageConfigReset(source);
+        MutableComponent message = Component.literal("Config was successfully set to default.");
+        sendMessage(context.getSource(), message.withStyle(ChatFormatting.WHITE), true);
         return 1;
     }
 
-    private static int github(CommandContext<CommandSourceStack> context) {
-        CommandSourceStack source = context.getSource();
-        Component link = ResponseHelper.clickableLink(HealthCommandMain.GITHUB_URL);
-        Component message = Component.literal("Check out the source code on GitHub: ").withStyle(ChatFormatting.WHITE).append(link);
-        ResponseHelper.sendMessage(source, message, false);
-        return 1;
+    // #################################################
+    // HELPER METHODS
+    // #################################################
+
+    private static MutableComponent start() {
+        return Component.literal("[HealthCommand] ").withStyle(ChatFormatting.GOLD);
     }
 
-    private static int issue(CommandContext<CommandSourceStack> context) {
-        CommandSourceStack source = context.getSource();
-        Component link = ResponseHelper.clickableLink(HealthCommandMain.GITHUB_ISSUE_URL);
-        Component message = Component.literal("If you found an issue, submit it here: ").withStyle(ChatFormatting.WHITE).append(link);
-        ResponseHelper.sendMessage(source, message, false);
-        return 1;
+    public static void sendMessage(CommandSourceStack source, Component message, boolean broadcastToOps) {
+        MutableComponent start = start().append(message);
+        source.sendSuccess(() -> start, broadcastToOps);
     }
 
-    private static int discord(CommandContext<CommandSourceStack> context) {
-        CommandSourceStack source = context.getSource();
-        Component link = ResponseHelper.clickableLink(HealthCommandMain.DISCORD_URL);
-        Component message = Component.literal("Join the Discord here: ").withStyle(ChatFormatting.WHITE).append(link);
-        ResponseHelper.sendMessage(source, message, false);
-        return 1;
+    private static MutableComponent clickableConfig() {
+        String fileName = ConfigManager.FILE_NAME;
+        String filePath = ConfigManager.getConfigPath();
+        MutableComponent mutableComponent = Component.literal(fileName);
+        mutableComponent.withStyle(ChatFormatting.GREEN, ChatFormatting.UNDERLINE);
+        mutableComponent.withStyle(style -> style.withClickEvent(new ClickEvent(ClickEvent.Action.OPEN_FILE, filePath)));
+        return mutableComponent;
     }
 
-    private static int curseforge(CommandContext<CommandSourceStack> context) {
-        CommandSourceStack source = context.getSource();
-        Component link = ResponseHelper.clickableLink(HealthCommandMain.CURSEFORGE_URL);
-        Component message = Component.literal("Check out the CurseForge page here: ").withStyle(ChatFormatting.WHITE).append(link);
-        ResponseHelper.sendMessage(source, message, false);
-        return 1;
+    private static MutableComponent clickableLink(String url, String displayText) {
+        MutableComponent mutableComponent = Component.literal(displayText);
+        mutableComponent.withStyle(ChatFormatting.GREEN, ChatFormatting.UNDERLINE);
+        mutableComponent.withStyle(style -> style.withClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, url)));
+        return mutableComponent;
     }
 
-    private static int modrinth(CommandContext<CommandSourceStack> context) {
-        CommandSourceStack source = context.getSource();
-        Component link = ResponseHelper.clickableLink(HealthCommandMain.MODRINTH_URL);
-        Component message = Component.literal("Check out the Modrinth page here: ").withStyle(ChatFormatting.WHITE).append(link);
-        ResponseHelper.sendMessage(source, message, false);
-        return 1;
+    public static MutableComponent clickableLink(String url) {
+        return clickableLink(url, url);
     }
 }

@@ -7,8 +7,9 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.event.server.ServerAboutToStartEvent;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.loading.FMLPaths;
 
-@Mod(HealthCommandMain.MOD_ID)
+@Mod("healthcommand")
 public class ForgeHealthCommand {
 
     public ForgeHealthCommand() {
@@ -25,7 +26,7 @@ public class ForgeHealthCommand {
     }
 
     private void commonSetup(final ServerAboutToStartEvent event) {
-        ConfigManager.loadAndVerifyConfig();
+        ConfigManager.loadAndVerifyConfig(FMLPaths.CONFIGDIR.get());
     }
 
 }

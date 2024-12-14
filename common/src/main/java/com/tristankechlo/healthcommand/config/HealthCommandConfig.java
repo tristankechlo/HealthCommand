@@ -1,35 +1,47 @@
 package com.tristankechlo.healthcommand.config;
 
-import com.google.gson.JsonObject;
-import com.tristankechlo.healthcommand.config.values.BooleanValue;
-import com.tristankechlo.healthcommand.config.values.IntegerValue;
+import com.google.gson.JsonElement;
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.DataResult;
+import com.mojang.serialization.JsonOps;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
 
-public final class HealthCommandConfig {
+public record HealthCommandConfig(
+        /* the permission level needed to execute this command */
+        int permissionLevel,
+        /* whether or not the health of the entity should increase beyond the maximum health for adding health */
+        boolean goBeyondMaxHealthForAdding,
+        /* whether or not the health of the entity should increase beyond the maximum health for setting health */
+        boolean goBeyondMaxHealthForSetting
+) {
 
-    /* the permission level needed to execute this command */
-    public static final IntegerValue permissionLevel = new IntegerValue("requiredPermissionLevel", 2, 0, 4);
-    /* whether or not the health of the entity should increase beyond the maximum health for adding health */
-    public static final BooleanValue goBeyondMaxHealthForAdding = new BooleanValue("goBeyondMaxHealthForAdding", true);
-    /* whether or not the health of the entity should increase beyond the maximum health for setting health */
-    public static final BooleanValue goBeyondMaxHealthForSetting = new BooleanValue("goBeyondMaxHealthForSetting", true);
+    public static final Codec<HealthCommandConfig> CODEC = RecordCodecBuilder.create(
+            instance -> instance.group(
+                    Codec.intRange(0, 4).fieldOf("requiredPermissionLevel").forGetter(HealthCommandConfig::permissionLevel),
+                    Codec.BOOL.fieldOf("goBeyondMaxHealthForAdding").forGetter(HealthCommandConfig::goBeyondMaxHealthForAdding),
+                    Codec.BOOL.fieldOf("goBeyondMaxHealthForSetting").forGetter(HealthCommandConfig::goBeyondMaxHealthForSetting)
+            ).apply(instance, HealthCommandConfig::new)
+    );
+    private static HealthCommandConfig INSTANCE = new HealthCommandConfig(2, true, true);
+
+    public static HealthCommandConfig get() {
+        return INSTANCE;
+    }
 
     public static void setToDefault() {
-        permissionLevel.setToDefault();
-        goBeyondMaxHealthForAdding.setToDefault();
-        goBeyondMaxHealthForSetting.setToDefault();
+        INSTANCE = new HealthCommandConfig(2, true, true);
     }
 
-    public static JsonObject serialize(JsonObject json) {
-        permissionLevel.serialize(json);
-        goBeyondMaxHealthForAdding.serialize(json);
-        goBeyondMaxHealthForSetting.serialize(json);
-        return json;
+    public static JsonElement serialize() {
+        DataResult<JsonElement> result = CODEC.encodeStart(JsonOps.INSTANCE, INSTANCE);
+        result.error().ifPresent((partial) -> ConfigManager.LOGGER.error(partial.message()));
+        return result.result().orElseThrow();
     }
 
-    public static void deserialize(JsonObject json) {
-        permissionLevel.deserialize(json);
-        goBeyondMaxHealthForAdding.deserialize(json);
-        goBeyondMaxHealthForSetting.deserialize(json);
+    public static void deserialize(JsonElement json) {
+        DataResult<HealthCommandConfig> result = CODEC.parse(JsonOps.INSTANCE, json);
+        result.error().ifPresent((partial) -> ConfigManager.LOGGER.error(partial.message()));
+        INSTANCE = result.result().orElseThrow();
     }
 
 }
