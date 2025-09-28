@@ -10,6 +10,9 @@ import net.minecraft.network.chat.ClickEvent;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 
+import java.net.URI;
+import java.net.URISyntaxException;
+
 import static net.minecraft.commands.Commands.literal;
 
 public class ModCommand {
@@ -68,18 +71,18 @@ public class ModCommand {
         String filePath = ConfigManager.getConfigPath();
         MutableComponent mutableComponent = Component.literal(fileName);
         mutableComponent.withStyle(ChatFormatting.GREEN, ChatFormatting.UNDERLINE);
-        mutableComponent.withStyle(style -> style.withClickEvent(new ClickEvent(ClickEvent.Action.OPEN_FILE, filePath)));
+        mutableComponent.withStyle(style -> style.withClickEvent(new ClickEvent.OpenFile(filePath)));
         return mutableComponent;
     }
 
-    private static MutableComponent clickableLink(String url, String displayText) {
+    private static MutableComponent clickableLink(URI url, String displayText) {
         MutableComponent mutableComponent = Component.literal(displayText);
         mutableComponent.withStyle(ChatFormatting.GREEN, ChatFormatting.UNDERLINE);
-        mutableComponent.withStyle(style -> style.withClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, url)));
+        mutableComponent.withStyle(style -> style.withClickEvent(new ClickEvent.OpenUrl(url)));
         return mutableComponent;
     }
 
-    public static MutableComponent clickableLink(String url) {
-        return clickableLink(url, url);
+    public static MutableComponent clickableLink(String url) throws URISyntaxException {
+        return clickableLink(new URI(url), url);
     }
 }

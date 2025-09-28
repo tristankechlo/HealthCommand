@@ -1,9 +1,12 @@
 package com.tristankechlo.healthcommand.commands;
 
 import com.mojang.brigadier.context.CommandContext;
+import com.tristankechlo.healthcommand.config.ConfigManager;
 import net.minecraft.ChatFormatting;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.network.chat.Component;
+
+import java.net.URISyntaxException;
 
 public enum ProjectLinks {
 
@@ -22,10 +25,15 @@ public enum ProjectLinks {
     }
 
     public int execute(CommandContext<CommandSourceStack> context) {
-        CommandSourceStack source = context.getSource();
-        Component link = ModCommand.clickableLink(this.url);
-        Component message = Component.literal(this.message).withStyle(ChatFormatting.WHITE).append(link);
-        ModCommand.sendMessage(source, message, false);
+        try {
+            CommandSourceStack source = context.getSource();
+            Component link = ModCommand.clickableLink(this.url);
+            Component message = Component.literal(this.message).withStyle(ChatFormatting.WHITE).append(link);
+            ModCommand.sendMessage(source, message, false);
+        } catch (URISyntaxException e) {
+            ConfigManager.LOGGER.error(e);
+            ModCommand.sendMessage(context.getSource(), Component.literal("An error occurred! Please check the server console!").withStyle(ChatFormatting.RED), true);
+        }
         return 1;
     }
 
