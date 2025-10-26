@@ -1,44 +1,48 @@
 # Changelog
 
-### Version 1.21.8 - 1.4.2
+## Version 1.21.10 - 1.4.2
+
+- port to 1.21.10
+
+## Version 1.21.8 - 1.4.2
 
 - port to 1.21.6 - 1.21.8
 
-### Version 1.21.5 - 1.4.2
+## Version 1.21.5 - 1.4.2
 
 - port to 1.21.5
 
-### Version 1.21.4 - 1.4.2
+## Version 1.21.4 - 1.4.2
 
 - port to 1.21.4
 - common icon across all mod-loaders
 - better config handling
 - smaller mod-file
 
-### Version 1.21.3 - 1.4.1
+## Version 1.21.3 - 1.4.1
 
 - port to 1.21.3
 
-### Version 1.20.4 - 1.4.1
+## Version 1.20.4 - 1.4.1
 
 - add ModMenu support
 - remove translation files
     - now displays proper messages when only installed on the server
 
-### Version 1.20.4 - 1.3
+## Version 1.20.4 - 1.3
 
 - port to 1.20.4
 - add neoforge support
 
-### Version 1.20.1 - 1.3
+## Version 1.20.1 - 1.3
 
 - port to 1.20.1
 
-### Version 1.19.4 - 1.3
+## Version 1.19.4 - 1.3
 
 - port to 1.19.4
 
-### Version 1.19.3 - 1.3
+## Version 1.19.3 - 1.3
 
 - port to 1.19.3
 - move config to json format to have the same config on forge and fabric
@@ -54,28 +58,28 @@
         - `/healthcommand config show` shows the config
         - `/healthcommand config reset` resets the config to its default values
 
-### Version 1.19.1 - 1.2
+## Version 1.19.1 - 1.2
 
 - port to 1.19.1
 
-### Version 1.19 - 1.2
+## Version 1.19 - 1.2
 
 - port to 1.19
 
-### Version 1.18.1 - 1.2
+## Version 1.18.1 - 1.2
 
 - port to 1.18.1
 
-### Version 1.17.1 - 1.2
+## Version 1.17.1 - 1.2
 
 - move config file to normal forge-config-folder
 
-### Version 1.17.1 - 1.1
+## Version 1.17.1 - 1.1
 
 - added new subcommand `/health reset <targets>`
     - will reset the maximum health of the entity to the previous base value
     - `/health set <targets> <amount>` will now reduce the maximum health of the targets to the set amount
 
-### Version 1.17.1 - 1.0
+## Version 1.17.1 - 1.0
 
 - added `/health` command
