@@ -118,6 +118,8 @@ public class HealthCommand {
     }
 
     private static int getHealth(CommandSource source, Collection<? extends Entity> targets) {
+        int lastSeenHealth = 0;
+
         for (Entity entity : targets) {
             if (!(entity instanceof LivingEntity)) {
                 continue;
@@ -125,9 +127,14 @@ public class HealthCommand {
             LivingEntity livingEntity = (LivingEntity) entity;
             float health = livingEntity.getHealth();
             final String m = livingEntity.getName().getString() + " has " + health + " health left.";
+            lastSeenHealth = Math.round(health);
             source.sendSuccess(new StringTextComponent(m), false);
         }
-        return 1;
+
+        if (targets.size() == 1) {
+            return lastSeenHealth;
+        }
+        return targets.size();
     }
 
     private static int resetHealth(CommandSource source, Collection<? extends Entity> targets) {
@@ -143,7 +150,7 @@ public class HealthCommand {
             final String m = "Resetted the health of " + livingEntity.getName().getString();
             source.sendSuccess(new StringTextComponent(m), false);
         }
-        return 1;
+        return targets.size();
     }
 
     private static boolean setHealthSingle(LivingEntity livingEntity, float newHealth, Supplier<Boolean> goBeyondMaxHealth) {

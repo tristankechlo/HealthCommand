@@ -4,6 +4,9 @@
 
 - config system parsing now based on vanilla codecs
 - removed command `/healthcommand config show`
+- changed command `/health get <targets>`
+    - function returns the health of the target, if only one is selected
+    - function returns the number of selected targets, if more than one is selected
 
 ## Version 1.16.5 - 1.4.1
 
