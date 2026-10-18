@@ -7,6 +7,8 @@
 - changed command `/health get <targets>`
     - function returns the health of the target, if only one is selected
     - function returns the number of selected targets, if more than one is selected
+- changed command `/health set <targets> <amount>` and `/health add <targets> <amount>`
+    - amount can now be a float instead of an integer
 
 ## Version 1.16.5 - 1.4.1
 

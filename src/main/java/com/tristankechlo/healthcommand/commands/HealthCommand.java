@@ -1,7 +1,7 @@
 package com.tristankechlo.healthcommand.commands;
 
 import com.mojang.brigadier.CommandDispatcher;
-import com.mojang.brigadier.arguments.IntegerArgumentType;
+import com.mojang.brigadier.arguments.FloatArgumentType;
 import com.tristankechlo.healthcommand.HealthCommandMain;
 import com.tristankechlo.healthcommand.config.ConfigManager;
 import com.tristankechlo.healthcommand.config.HealthCommandConfig;
@@ -32,12 +32,12 @@ public class HealthCommand {
         dispatcher.register(Commands.literal("health")
                 .requires((player) -> player.hasPermission(HealthCommandConfig.get().permissionLevel()))
                 .then(Commands.literal("add").then(Commands.argument("targets", EntityArgument.entities())
-                        .then(Commands.argument("amount", IntegerArgumentType.integer()).executes((source) -> {
-                            return addHealth(source.getSource(), EntityArgument.getEntities(source, "targets"), IntegerArgumentType.getInteger(source, "amount"));
+                        .then(Commands.argument("amount", FloatArgumentType.floatArg()).executes((source) -> {
+                            return addHealth(source.getSource(), EntityArgument.getEntities(source, "targets"), FloatArgumentType.getFloat(source, "amount"));
                         }))))
                 .then(Commands.literal("set").then(Commands.argument("targets", EntityArgument.entities())
-                        .then(Commands.argument("amount", IntegerArgumentType.integer(0)).executes((source) -> {
-                            return setHealth(source.getSource(), EntityArgument.getEntities(source, "targets"), IntegerArgumentType.getInteger(source, "amount"));
+                        .then(Commands.argument("amount", FloatArgumentType.floatArg(0)).executes((source) -> {
+                            return setHealth(source.getSource(), EntityArgument.getEntities(source, "targets"), FloatArgumentType.getFloat(source, "amount"));
                         }))))
                 .then(Commands.literal("get")
                         .then(Commands.argument("targets", EntityArgument.entities()).executes((source) -> {
@@ -51,7 +51,7 @@ public class HealthCommand {
         ConfigManager.LOGGER.info("Command '/health' registered");
     }
 
-    private static int addHealth(CommandSource source, Collection<? extends Entity> targets, int amount) {
+    private static int addHealth(CommandSource source, Collection<? extends Entity> targets, float amount) {
         int i = 0;
         LivingEntity lastModified = null;
         for (Entity entity : targets) {
@@ -84,7 +84,7 @@ public class HealthCommand {
         return i;
     }
 
-    private static int setHealth(CommandSource source, Collection<? extends Entity> targets, int amount) {
+    private static int setHealth(CommandSource source, Collection<? extends Entity> targets, float amount) {
         int i = 0;
         LivingEntity lastModified = null;
         for (Entity entity : targets) {
