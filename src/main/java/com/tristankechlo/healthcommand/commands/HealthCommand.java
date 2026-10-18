@@ -3,6 +3,7 @@ package com.tristankechlo.healthcommand.commands;
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.arguments.IntegerArgumentType;
 import com.tristankechlo.healthcommand.HealthCommandMain;
+import com.tristankechlo.healthcommand.config.ConfigManager;
 import com.tristankechlo.healthcommand.config.HealthCommandConfig;
 import net.minecraft.command.CommandSource;
 import net.minecraft.command.Commands;
@@ -23,23 +24,20 @@ import java.util.function.Supplier;
 public class HealthCommand {
 
     private static final UUID UUID = java.util.UUID.fromString("cd4b25c8-660c-499f-a06f-2a818257c121");
-    private static final String PREFIX = "commands.healthcommand.health";
     private static final Supplier<String> SUPPLIER = () -> {
         return HealthCommandMain.MOD_ID + ":" + HealthCommand.class.getSimpleName();
     };
 
     public static void register(final CommandDispatcher<CommandSource> dispatcher) {
-        dispatcher.register(Commands.literal("health").requires((player) -> {
-                    int level = HealthCommandConfig.permissionLevel.get();
-                    return player.hasPermission(level);
-                }).then(Commands.literal("add").then(Commands.argument("targets", EntityArgument.entities())
+        dispatcher.register(Commands.literal("health")
+                .requires((player) -> player.hasPermission(HealthCommandConfig.get().permissionLevel()))
+                .then(Commands.literal("add").then(Commands.argument("targets", EntityArgument.entities())
                         .then(Commands.argument("amount", IntegerArgumentType.integer()).executes((source) -> {
-                            return addHealth(source.getSource(), EntityArgument.getEntities(source, "targets"),
-                                    IntegerArgumentType.getInteger(source, "amount"));
-                        })))).then(Commands.literal("set").then(Commands.argument("targets", EntityArgument.entities())
+                            return addHealth(source.getSource(), EntityArgument.getEntities(source, "targets"), IntegerArgumentType.getInteger(source, "amount"));
+                        }))))
+                .then(Commands.literal("set").then(Commands.argument("targets", EntityArgument.entities())
                         .then(Commands.argument("amount", IntegerArgumentType.integer(0)).executes((source) -> {
-                            return setHealth(source.getSource(), EntityArgument.getEntities(source, "targets"),
-                                    IntegerArgumentType.getInteger(source, "amount"));
+                            return setHealth(source.getSource(), EntityArgument.getEntities(source, "targets"), IntegerArgumentType.getInteger(source, "amount"));
                         }))))
                 .then(Commands.literal("get")
                         .then(Commands.argument("targets", EntityArgument.entities()).executes((source) -> {
@@ -48,8 +46,9 @@ public class HealthCommand {
                 .then(Commands.literal("reset")
                         .then(Commands.argument("targets", EntityArgument.entities()).executes((source) -> {
                             return resetHealth(source.getSource(), EntityArgument.getEntities(source, "targets"));
-                        }))));
-        HealthCommandMain.LOGGER.debug(HealthCommandMain.MOD_ID + ": Health command registered");
+                        })))
+        );
+        ConfigManager.LOGGER.info("Command '/health' registered");
     }
 
     private static int addHealth(CommandSource source, Collection<? extends Entity> targets, int amount) {
@@ -67,7 +66,7 @@ public class HealthCommand {
             }
             LivingEntity livingEntity = (LivingEntity) entity;
             lastModified = livingEntity;
-            if (setHealthSingle(livingEntity, livingEntity.getHealth() + amount, HealthCommandConfig.goBeyondMaxHealthForAdding::get)) {
+            if (setHealthSingle(livingEntity, livingEntity.getHealth() + amount, HealthCommandConfig.get()::goBeyondMaxHealthForAdding)) {
                 i++;
             }
         }
@@ -76,9 +75,11 @@ public class HealthCommand {
         if (i == 0) {
             source.sendFailure(new StringTextComponent("There were no entities with a health attribute in your selection."));
         } else if (i == 1 && lastModified != null) {
-            source.sendSuccess(new StringTextComponent("New health of " + lastModified.getName().getString() + " is " + lastModified.getHealth()), false);
+            final String m = "New health of " + lastModified.getName().getString() + " is " + lastModified.getHealth();
+            source.sendSuccess(new StringTextComponent(m), false);
         } else {
-            source.sendSuccess(new StringTextComponent("Health of " + i + " entities is increased by " + amount), false);
+            final String m = "Health of " + i + " entities is increased by " + amount;
+            source.sendSuccess(new StringTextComponent(m), false);
         }
         return i;
     }
@@ -98,7 +99,7 @@ public class HealthCommand {
             }
             LivingEntity livingEntity = (LivingEntity) entity;
             lastModified = livingEntity;
-            if (setHealthSingle(livingEntity, amount, HealthCommandConfig.goBeyondMaxHealthForSetting::get)) {
+            if (setHealthSingle(livingEntity, amount, HealthCommandConfig.get()::goBeyondMaxHealthForSetting)) {
                 i++;
             }
         }
@@ -107,9 +108,11 @@ public class HealthCommand {
         if (i == 0) {
             source.sendFailure(new StringTextComponent("There were no entities with a health attribute in your selection."));
         } else if (i == 1 && lastModified != null) {
-            source.sendSuccess(new StringTextComponent("New health of " + lastModified.getName().getString() + " is " + lastModified.getHealth()), false);
+            final String m = "New health of " + lastModified.getName().getString() + " is " + lastModified.getHealth();
+            source.sendSuccess(new StringTextComponent(m), false);
         } else {
-            source.sendSuccess(new StringTextComponent("New health of " + i + " entities is now " + amount), false);
+            final String m = "New health of " + i + " entities is now " + amount;
+            source.sendSuccess(new StringTextComponent(m), false);
         }
         return i;
     }
@@ -121,7 +124,8 @@ public class HealthCommand {
             }
             LivingEntity livingEntity = (LivingEntity) entity;
             float health = livingEntity.getHealth();
-            source.sendSuccess(new StringTextComponent(livingEntity.getName().getString() + " has " + health + " health left."), false);
+            final String m = livingEntity.getName().getString() + " has " + health + " health left.";
+            source.sendSuccess(new StringTextComponent(m), false);
         }
         return 1;
     }
@@ -136,7 +140,8 @@ public class HealthCommand {
             attribute.removeModifier(UUID);
             final float health = livingEntity.getHealth();
             livingEntity.setHealth(health);
-            source.sendSuccess(new StringTextComponent("Resetted the health of " + livingEntity.getName().getString()), false);
+            final String m = "Resetted the health of " + livingEntity.getName().getString();
+            source.sendSuccess(new StringTextComponent(m), false);
         }
         return 1;
     }
