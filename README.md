@@ -8,8 +8,8 @@ adds a simple `/health` command to Minecraft
 
 ### Syntax
 
-- `/health add <targets> <amount>`
-- `/health set <targets> <amount>`
+- `/health add <targets> <amount> [<updateMaxHealth>]`
+- `/health set <targets> <health> [<updateMaxHealth>]`
 - `/health get <targets>`
 - `/health reset <targets>`
 

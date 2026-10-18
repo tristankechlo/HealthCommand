@@ -7,8 +7,17 @@
 - changed command `/health get <targets>`
     - function returns the health of the target, if only one is selected
     - function returns the number of selected targets, if more than one is selected
-- changed command `/health set <targets> <amount>` and `/health add <targets> <amount>`
+- changed command `/health set <targets> <health>` and `/health add <targets> <amount>`
     - amount can now be a float instead of an integer
+- added optional argument `<updateMaxHealth>` to `/health add`
+- added optional argument `<updateMaxHealth>` to `/health set`
+- added new config option `fireLivingHealEvent`
+    - When using the command `/health add`, and the health of an entity increases, should the `LivingHealEvent` be
+      fired?
+- Changed how `/health add` and `/health set` behave
+    - Full desciption on the new [Wiki](https://github.com/tristankechlo/HealthCommand/wiki)
+- remove command options `goBeyondMaxHealthForAdding` and `goBeyondMaxHealthForSetting` as they are replaced by the
+  command arhuments
 
 ## Version 1.16.5 - 1.4.1
 

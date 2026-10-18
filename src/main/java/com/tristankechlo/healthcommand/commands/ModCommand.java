@@ -23,6 +23,7 @@ public class ModCommand {
                         .then(literal("reset").executes(ModCommand::configReset)))
                 .then(literal("github").executes(ProjectLinks.GITHUB::execute))
                 .then(literal("issue").executes(ProjectLinks.ISSUE::execute))
+                .then(literal("wiki").executes(ProjectLinks.WIKI::execute))
                 .then(literal("discord").executes(ProjectLinks.DISCORD::execute))
                 .then(literal("curseforge").executes(ProjectLinks.CURSEFORGE::execute))
                 .then(literal("modrinth").executes(ProjectLinks.MODRINTH::execute));

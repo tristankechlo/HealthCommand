@@ -39,6 +39,7 @@ public final class ConfigManager {
             LOGGER.error(e.getMessage());
             LOGGER.error("Error loading config '{}', config hasn't been loaded. Using default values.", FILE_NAME);
             HealthCommandConfig.setToDefault();
+            LOGGER.info("Default config: {}", HealthCommandConfig.serialize().toString());
         }
     }
 
